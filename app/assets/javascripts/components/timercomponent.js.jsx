@@ -6,19 +6,32 @@ var Task = React.createClass({
 	},
 	render: function(){
 		return(
-			<div>{this.state.task}</div>
+			<div className="col-sm-4">
+				<div className="taskBox panel panel-default"> 
+					<div className="panel-heading">
+						<div className="panel-title"><h3 className="tasktitle text-left">{this.state.task.name}</h3>
+						<h4 className="text-right"><b>{this.state.task.priority}</b></h4> 
+						</div>
+					</div> 
+					<div className="panel-body">
+						<div className="row text-center">{this.state.task.description}</div>
+						<Timer />							
+					</div>
+				</div>
+			</div>
 			);
 	}
 });
 
 var Timer = React.createClass({
+
 	getInitialState: function(){
 		return{
-			timeRemaining: 0
+			timeRemaining: 0,
+			called: 0
 		};
 	},
 	tick: function(){
-
 		var actualTimeRemaining = this.state.timeRemaining + 1;
 		if (actualTimeRemaining == 500){
 			this.setState({timeRemaining: "Boom"});
@@ -28,13 +41,22 @@ var Timer = React.createClass({
 		} 
 	},
 	stopTick: function(){
-		started = false;
-		clearInterval(this.interval);
+		if (this.state.called === 1){
+			this.state.called--;
+			clearInterval(this.interval);
+		}else{
+			this.state.called = this.state.called;
+		}
 	},
 
 	startTick: function(){
-		
-		this.interval = setInterval(this.tick, 1000);
+		var tickInterval = 1000;
+		if (this.state.called === 0){
+			this.state.called++;
+			this.interval = setInterval(this.tick, tickInterval);
+		}else{
+			this.state.called = this.state.called;
+		}
 	},
 	render: function(){
 		return(
@@ -58,21 +80,12 @@ var TaskBox = React.createClass({
 	render: function(){
 		var taskNodes = this.props.tasks.map(function(task){
 			return(
-				<div className="col-sm-4">
-					<div className="taskBox panel panel-default"> 
-						<div className="panel-heading">
-							<h1 className="panel-title text-center"><Task task={task} /> </h1>
-						</div> 
-						<div className="panel-body">
-							<b><Timer /></b> 
-						</div>
-					</div>
-				</div>
+					<Task task={task} />
 				);
 			});
 		return(<div>{taskNodes}</div>);
 		}
-	});
+});
 
 
-React.renderComponent(<TaskBox />);
+// React.renderComponent(<TaskBox />);
