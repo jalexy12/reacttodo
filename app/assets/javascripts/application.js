@@ -13,8 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
-//= require turbolinks
+// require turbolinks
 //= require react
 //= require react_ujs
 //= require components
+//= require draggable 
 //= require_tree .
+

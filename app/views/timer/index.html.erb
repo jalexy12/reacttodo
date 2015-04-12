@@ -1,3 +1,8 @@
 <div class="container">
-<%= react_component('TaskBox', tasks: @tasks) %>
+<% @actual_tasks.each_with_index do |task_group, index| %>
+  
+  <h2>Container <%= index + 1 %></h2>
+  <%= react_component 'Container', { items: task } %>
+
+<% end %>
 </div>
